@@ -1,0 +1,9 @@
+{
+  "name": "@openskills/demo-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "npx --yes serve -l 4321 .",
+    "start": "npx --yes serve -l 4321 ."
+  }
+}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Demo App — OpenSkills</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 480px; margin: 40px auto; padding: 0 16px; }
+    label { display: block; margin-top: 12px; font-weight: 600; }
+    input, select, button { width: 100%; margin-top: 4px; padding: 8px; box-sizing: border-box; }
+    button { margin-top: 16px; background: #111; color: #fff; border: none; cursor: pointer; }
+    #success { display: none; color: green; margin-top: 16px; }
+  </style>
+</head>
+<body>
+  <h1>Expense Demo</h1>
+  <p>Demo app for OpenSkills Recorder e2e tests.</p>
+  <form id="form">
+    <label for="email">Email</label>
+    <input id="email" data-testid="email" type="email" placeholder="you@company.com" required />
+    <label for="amount">Amount</label>
+    <input id="amount" data-testid="amount" type="number" placeholder="42.50" required />
+    <label for="category">Category</label>
+    <select id="category" data-testid="category">
+      <option value="travel">Travel</option>
+      <option value="meals">Meals</option>
+      <option value="supplies">Supplies</option>
+    </select>
+    <button type="submit" data-testid="submit">Submit expense</button>
+  </form>
+  <p id="success" data-testid="success">Expense submitted successfully!</p>
+  <script>
+    document.getElementById('form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      document.getElementById('success').style.display = 'block';
+      history.pushState({}, '', '/success');
+    });
+  </script>
+</body>
+</html>

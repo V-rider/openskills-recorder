@@ -1,0 +1,44 @@
+{
+  "id": "skill-expense-demo",
+  "name": "Expense Demo",
+  "intent": "Submit expense report on demo app",
+  "version": 1,
+  "tags": ["demo", "e2e"],
+  "whenToUse": "When submitting expenses on the demo form",
+  "parameters": [
+    { "name": "email", "type": "string", "required": true, "example": "test@example.com" },
+    { "name": "amount", "type": "string", "required": true, "example": "42.50" }
+  ],
+  "preconditions": [{ "type": "url", "rule": "http://localhost:4321" }],
+  "steps": [
+    {
+      "id": "step-1",
+      "action": "navigate",
+      "selectors": [],
+      "fallbacks": [],
+      "value": "http://localhost:4321"
+    },
+    {
+      "id": "step-2",
+      "action": "fill",
+      "selectors": [{ "strategy": "testid", "value": "[data-testid=\"email\"]", "confidence": 0.95 }],
+      "fallbacks": [],
+      "parameterRef": "email"
+    },
+    {
+      "id": "step-3",
+      "action": "fill",
+      "selectors": [{ "strategy": "testid", "value": "[data-testid=\"amount\"]", "confidence": 0.95 }],
+      "fallbacks": [],
+      "parameterRef": "amount"
+    },
+    {
+      "id": "step-4",
+      "action": "click",
+      "selectors": [{ "strategy": "testid", "value": "[data-testid=\"submit\"]", "confidence": 0.95 }],
+      "fallbacks": []
+    }
+  ],
+  "successCriteria": [{ "type": "textVisible", "rule": "Expense submitted successfully" }],
+  "warnings": []
+}

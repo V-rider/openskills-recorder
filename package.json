@@ -1,0 +1,26 @@
+{
+  "name": "openskills-recorder",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@9.15.0",
+  "scripts": {
+    "dev": "turbo dev --filter=@openskills/web --filter=@openskills/demo-app --filter=@openskills/desktop",
+    "build": "turbo build",
+    "test": "turbo test",
+    "test:e2e": "playwright test",
+    "lint": "turbo lint",
+    "db:push": "pnpm --filter @openskills/db db:push",
+    "db:generate": "pnpm --filter @openskills/db db:generate",
+    "typecheck": "turbo typecheck",
+    "build:packages": "pnpm --filter @openskills/core build && pnpm --filter @openskills/db build && pnpm --filter @openskills/recorder build && pnpm --filter @openskills/ai build && pnpm --filter @openskills/synthesis build && pnpm --filter @openskills/replay build && pnpm --filter @openskills/desktop-adapter build",
+    "dist:desktop": "pnpm --filter @openskills/desktop dist"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.1",
+    "turbo": "^2.3.3",
+    "typescript": "^5.7.2"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["electron", "@prisma/client", "@prisma/engines", "prisma", "esbuild", "sharp"]
+  }
+}

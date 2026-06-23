@@ -1,0 +1,31 @@
+{
+  "name": "@openskills/desktop",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/main.js",
+  "scripts": {
+    "build": "tsc && tsc -p tsconfig.preload.json && mv dist/preload.js dist/preload.cjs",
+    "dev": "tsc && tsc -p tsconfig.preload.json && mv dist/preload.js dist/preload.cjs && electron .",
+    "dist": "pnpm build && electron-builder --config electron-builder.yml",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@openskills/ai": "workspace:*",
+    "@openskills/core": "workspace:*",
+    "@openskills/db": "workspace:*",
+    "@openskills/desktop-adapter": "workspace:*",
+    "@openskills/recorder": "workspace:*",
+    "@openskills/replay": "workspace:*",
+    "@openskills/synthesis": "workspace:*",
+    "electron": "^33.2.1",
+    "playwright": "^1.49.1",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@types/ws": "^8.5.13",
+    "electron-builder": "^25.1.8",
+    "typescript": "^5.7.2"
+  }
+}

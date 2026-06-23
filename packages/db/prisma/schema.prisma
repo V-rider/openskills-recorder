@@ -1,0 +1,107 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Recording {
+  id          String   @id @default(cuid())
+  name        String
+  intent      String
+  description String?
+  tags        String   @default("[]")
+  scope       String   @default("session")
+  status      String   @default("pending")
+  artifactDir String?
+  startedAt   DateTime @default(now())
+  endedAt     DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  events RecordingEvent[]
+  skill  Skill?
+}
+
+model RecordingEvent {
+  id             String   @id @default(cuid())
+  recordingId    String
+  sequence       Int
+  type           String
+  timestamp      DateTime
+  payload        String
+  screenshotPath String?
+  createdAt      DateTime @default(now())
+
+  recording Recording @relation(fields: [recordingId], references: [id], onDelete: Cascade)
+
+  @@index([recordingId, sequence])
+}
+
+model Skill {
+  id               String   @id @default(cuid())
+  recordingId      String   @unique
+  name             String
+  intent           String
+  description      String?
+  tags             String   @default("[]")
+  currentVersionId String?
+  deletedAt        DateTime?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  recording Recording     @relation(fields: [recordingId], references: [id], onDelete: Cascade)
+  versions  SkillVersion[]
+}
+
+model SkillVersion {
+  id              String   @id @default(cuid())
+  skillId         String
+  version         Int
+  artifactPath    String
+  changelog       String?
+  synthesisConfig String   @default("{}")
+  createdAt       DateTime @default(now())
+
+  skill   Skill       @relation(fields: [skillId], references: [id], onDelete: Cascade)
+  replays ReplayRun[]
+
+  @@unique([skillId, version])
+}
+
+model ReplayRun {
+  id             String    @id @default(cuid())
+  skillVersionId String
+  status         String    @default("pending")
+  inputs         String    @default("{}")
+  logPath        String?
+  error          String?
+  startedAt      DateTime  @default(now())
+  endedAt        DateTime?
+
+  skillVersion SkillVersion    @relation(fields: [skillVersionId], references: [id], onDelete: Cascade)
+  stepLogs     ReplayStepLog[]
+}
+
+model ReplayStepLog {
+  id          String   @id @default(cuid())
+  replayRunId String
+  stepId      String
+  sequence    Int
+  status      String
+  message     String?
+  details     String   @default("{}")
+  createdAt   DateTime @default(now())
+
+  replayRun ReplayRun @relation(fields: [replayRunId], references: [id], onDelete: Cascade)
+
+  @@index([replayRunId, sequence])
+}
+
+model AppSettings {
+  id        String   @id @default("default")
+  data      String   @default("{}")
+  updatedAt DateTime @updatedAt
+}

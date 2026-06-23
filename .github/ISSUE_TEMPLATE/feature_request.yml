@@ -1,0 +1,49 @@
+name: Feature request
+description: Propose a new feature or enhancement
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Describe the problem and proposed solution. For large features, discuss in an issue before opening a PR.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What workflow or pain point does this address?
+      placeholder: "I want to replay skills in CI without a display..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      placeholder: "Add a GitHub Actions adapter that runs headless replay..."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Recording / selectors
+        - Synthesis / skill format
+        - Replay engine
+        - Web UI
+        - Electron desktop
+        - Docs / examples
+        - Other
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: willing
+    attributes:
+      label: Contribution
+      options:
+        - label: I am willing to submit a PR for this
+          required: false
