@@ -560,7 +560,16 @@ Bug reports: include OS, Node version, recording scope, target URL, and relevant
 - **File uploads** — Synthesized as `file`-type parameters; you must supply valid local paths at replay time.
 - **LLM enhancement scope** — Metadata only (`whenToUse`, `description`, parameter labels). Does not rewrite step logic.
 - **Desktop / native recording** — Not implemented (`desktop` scope disabled in UI).
-- **No remote git remote configured yet** — Set up GitHub and CI badge URL when publishing.
+
+### Publish to GitHub
+
+After `gh auth login`:
+
+```bash
+./scripts/publish-github.sh
+```
+
+See [docs/LAUNCH.md](docs/LAUNCH.md) for social copy after publishing.
 
 ---
 
