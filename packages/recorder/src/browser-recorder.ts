@@ -17,6 +17,16 @@ import { RECORDER_INIT_SCRIPT } from "./inject-script.js";
 
 export type RecordingEventHandler = (event: RawRecordingEvent) => void | Promise<void>;
 
+/** Headless when CI, no DISPLAY on Linux, or OPENSKILLS_RECORDING_HEADLESS=true. */
+export function isRecordingHeadless(): boolean {
+  const env = process.env.OPENSKILLS_RECORDING_HEADLESS;
+  if (env === "true") return true;
+  if (env === "false") return false;
+  if (process.env.CI === "true") return true;
+  if (process.platform === "linux" && !process.env.DISPLAY) return true;
+  return false;
+}
+
 export interface RecordingSession {
   recordingId: string;
   scope: RecordingScope;
@@ -71,10 +81,12 @@ export class BrowserRecorder {
     let page: Page;
     let userDataDir: string | undefined;
 
+    const headless = isRecordingHeadless();
+
     if (scope === "session") {
       userDataDir = await mkdtemp(join(tmpdir(), "openskills-session-"));
       context = await playwright.chromium.launchPersistentContext(userDataDir, {
-        headless: false,
+        headless,
         viewport: { width: 1280, height: 800 },
         acceptDownloads: true,
         args: ["--disable-blink-features=AutomationControlled"],
@@ -88,7 +100,7 @@ export class BrowserRecorder {
       });
     } else {
       browser = await playwright.chromium.launch({
-        headless: false,
+        headless,
         args: ["--disable-blink-features=AutomationControlled"],
       });
       context = await browser.newContext({

@@ -70,24 +70,16 @@ test("full flow: synthesize from recording fixture", async ({ request }) => {
     ],
   };
 
-  const startRes = await request.post("/api/recordings/start", {
-    data: {
-      name: recordingFixture.name,
-      intent: recordingFixture.intent,
-      tags: recordingFixture.tags,
-      scope: "session",
-      startUrl: "http://localhost:4321",
-    },
+  const seedRes = await request.post("/api/e2e/seed-recording", {
+    data: recordingFixture,
   });
-  expect(startRes.ok()).toBeTruthy();
-  const { recordingId } = await startRes.json();
-
-  await request.post(`/api/recordings/${recordingId}/stop`);
+  expect(seedRes.ok()).toBeTruthy();
+  const { recordingId } = await seedRes.json();
 
   const synthRes = await request.post(`/api/recordings/${recordingId}/synthesize`, {
     data: { useLlm: false },
   });
   expect(synthRes.ok()).toBeTruthy();
   const synth = await synthRes.json();
-  expect(synth.skill?.steps?.length).toBeGreaterThanOrEqual(0);
+  expect(synth.skill?.steps?.length).toBeGreaterThan(0);
 });

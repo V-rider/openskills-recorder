@@ -29,6 +29,7 @@ export default defineConfig({
       timeout: 120000,
       env: {
         DATABASE_URL: e2eDatabaseUrl,
+        E2E_FIXTURE_API: "true",
       },
     },
   ],
