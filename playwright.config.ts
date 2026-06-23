@@ -1,4 +1,8 @@
+import path from "node:path";
 import { defineConfig, devices } from "@playwright/test";
+
+const rootDir = process.cwd();
+const e2eDatabaseUrl = `file:${path.join(rootDir, "openskills-data", "e2e.db")}`;
 
 export default defineConfig({
   testDir: "./e2e",
@@ -19,12 +23,12 @@ export default defineConfig({
       reuseExistingServer: !process.env.CI,
     },
     {
-      command: "pnpm --filter @openskills/web dev",
+      command: "bash scripts/e2e-web-dev.sh",
       url: "http://localhost:3000",
       reuseExistingServer: !process.env.CI,
       timeout: 120000,
       env: {
-        DATABASE_URL: "file:./openskills-data/e2e.db",
+        DATABASE_URL: e2eDatabaseUrl,
       },
     },
   ],
