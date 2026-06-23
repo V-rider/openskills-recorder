@@ -569,8 +569,6 @@ After `gh auth login`:
 ./scripts/publish-github.sh
 ```
 
-See [docs/LAUNCH.md](docs/LAUNCH.md) for social copy after publishing.
-
 ---
 
 ## License
